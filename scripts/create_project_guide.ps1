@@ -55,6 +55,17 @@ $body += Table @(
   @('Reports', 'Review shortage predictions and reorder recommendations. Use the quick estimate when the forecasting service is not available.'),
   @('Stock movements', 'Keep a history of what changed: delivery, sale, return, damage, adjustment, or restock.')
 )
+$body += Paragraph 'Alert delivery: email and SMS' 'Heading1'
+$body += Paragraph 'StockWatch keeps every low-stock alert inside the Alerts page. When the administrator enables alert delivery, the same alert can also be sent by email and SMS to every active user with the required contact details.'
+$body += Table @(
+  @('Delivery method', 'What the administrator must do'),
+  @('Email', 'Add the organisation SMTP details in the server settings and enable email alerts.'),
+  @('SMS in Nigeria', 'Create or fund a NigeriaBulkSMS portal account, save the portal username, password, and approved sender name in the server settings, then enable SMS alerts.'),
+  @('Phone number', 'Users should save a Nigerian number as 080... or +234... in My Profile. StockWatch changes a valid local number to the format required by the SMS gateway.')
+)
+$body += Paragraph 'My Profile and user accounts' 'Heading1'
+$body += Paragraph 'Every person should use their own account. Select the profile menu and open My Profile to update your name, email address, password, and alert phone number. This is especially important for an existing administrator whose account was created without a phone number.'
+$body += Paragraph 'Only an administrator can open Manage users. There, the administrator can add new people, select a role, update contact details, reset a password, and disable an account when somebody should no longer use the system. Disabled users do not receive alerts.'
 $body += Paragraph 'Getting started' 'Heading1'
 $body += Paragraph '1. Open the StockWatch web address provided by your organisation. The first page introduces the system. Select Sign in.'
 $body += Paragraph '2. Enter the email address and password provided by your administrator. For demonstration data only, the project can use admin@stockalert.com with password admin123. Change demo credentials before using the system for a real business.'
@@ -90,7 +101,7 @@ $body += Paragraph 'Example: A school resumption period may increase demand for 
 $body += Paragraph 'Good habits that keep the numbers correct' 'Heading1'
 foreach ($item in @('Record stock changes on the same day they happen.', 'Always add a short note for adjustments and damaged items.', 'Do a physical stock count regularly, for example once each week for fast-moving items and once each month for all items.', 'Check Alerts at the start of each working day.', 'Keep supplier contact details and delivery lead times up to date.', 'Do not delete a product just because it is temporarily out of stock. Keep its history unless the product has permanently left the business.')) { $body += Bullet $item }
 $body += Paragraph 'Roles and permissions' 'Heading1'
-$body += Paragraph 'Administrators can manage users and delete products. Managers can add and edit products and suppliers. Staff can use the operational parts of the system according to their assigned access. Use individual accounts rather than sharing one password so activity can be traced correctly.'
+$body += Paragraph 'Administrators manage user accounts and can delete products. Managers can add and edit products and suppliers. Staff use the operational parts of the system according to their assigned access. Use individual accounts rather than sharing one password so activity can be traced correctly.'
 $body += Paragraph 'What to do when something looks wrong' 'Heading1'
 $body += Table @(
   @('Problem', 'First thing to check'),
@@ -101,9 +112,9 @@ $body += Table @(
   @('You cannot create or delete something', 'Your account may have staff-level permissions. Ask an administrator or manager for help.')
 )
 $body += Paragraph 'Technical setup for an administrator' 'Heading1'
-$body += Paragraph 'The project has three parts: the React web client, the Node.js API with PostgreSQL database, and an optional Python forecasting service. PostgreSQL is required. Start the server, then the client. Start the Python service only when detailed forecasts are needed. The repository README and QUICKSTART document contain the full command-by-command setup instructions.'
+$body += Paragraph 'The project has three parts: the React web client, the Node.js API with PostgreSQL database, and an optional Python forecasting service. PostgreSQL is required. Start the server, then the client. Start the Python service only when detailed forecasts are needed. The administrator can configure SMTP email and NigeriaBulkSMS SMS delivery in the server environment settings. The repository README and QUICKSTART document contain the full command-by-command setup instructions.'
 $body += Paragraph 'Final checklist before daily use' 'Heading1'
-foreach ($item in @('All products have correct names, SKUs, current quantities, and minimum stock levels.', 'Suppliers have correct contact details and delivery lead times.', 'The team knows how to record deliveries, sales, returns, damage, and adjustments.', 'Managers review Alerts and Reports daily or weekly.', 'Demo accounts and default passwords have been changed for real business use.')) { $body += Bullet $item }
+foreach ($item in @('All products have correct names, SKUs, current quantities, and minimum stock levels.', 'Suppliers have correct contact details and delivery lead times.', 'Every active user has the correct email address and, if SMS alerts are needed, a Nigerian phone number.', 'SMTP and NigeriaBulkSMS delivery have been tested before relying on alerts.', 'The team knows how to record deliveries, sales, returns, damage, and adjustments.', 'Managers review Alerts and Reports daily or weekly.', 'Demo accounts and default passwords have been changed for real business use.')) { $body += Bullet $item }
 $body += Paragraph 'StockWatch works best when it reflects reality. Record every important stock change, check alerts early, and use reports to make better purchasing decisions.'
 
 $document = @"

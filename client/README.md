@@ -60,6 +60,14 @@ on `http://localhost:5000` — log in with the seeded demo account
 
 ## Notes
 
+- **My Profile** lets every user update their name, email, password, and the
+  Nigerian phone number used for SMS stock alerts.
+- **User Management** is available to administrators from the account menu;
+  it creates and maintains user accounts, roles, contact details, and active
+  status. The `/api/users` endpoints are also enforced as admin-only.
+- The dashboard trend chart now uses the dedicated
+  `GET /api/inventory/trend` endpoint.
+
 - Auth token is stored in `localStorage`; a 401 response anywhere redirects
   to `/login` automatically (see `src/services/api.js`).
 - The dashboard's trend chart is built client-side from real movement

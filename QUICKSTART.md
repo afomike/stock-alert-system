@@ -170,6 +170,23 @@ background service (via `brew services`, `systemctl`, or Docker) — stop it
 separately if you want, e.g. `brew services stop postgresql@16` or
 `docker stop stock-alert-db`.
 
+## Alert delivery and users
+
+In `server/.env`, enable `EMAIL_ENABLED=true` only after setting your SMTP
+credentials. To enable NigeriaBulkSMS delivery, configure and enable:
+
+```env
+SMS_ENABLED=true
+NIGERIA_BULK_SMS_URL=https://portal.nigeriabulksms.com/api/
+NIGERIA_BULK_SMS_USERNAME=your-portal-username
+NIGERIA_BULK_SMS_PASSWORD=your-portal-password
+NIGERIA_BULK_SMS_SENDER=StockWatch
+```
+
+Admins use **Manage users** to add accounts and choose roles. Each user can
+save their Nigerian alert phone number (`080...` or `+234...`) in **My
+Profile**. Do not commit `.env` or share its SMTP/SMS credentials.
+
 ## Re-running later
 
 PostgreSQL data persists between restarts. You only need to repeat steps

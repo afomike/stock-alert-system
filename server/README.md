@@ -14,6 +14,8 @@ built so both can plug into it.
 - PostgreSQL + Sequelize ORM
 - JWT auth + bcrypt password hashing
 - node-cron for scheduled low-stock sweeps
+- Nodemailer for SMTP email alerts
+- NigeriaBulkSMS portal API for SMS alerts
 
 ## Setup
 
@@ -58,7 +60,7 @@ Server runs on `http://localhost:5000` by default. Health check: `GET /health`.
 
 ## Auth
 
-All routes except `/api/auth/register` and `/api/auth/login` require:
+All routes except `/api/auth/login` require:
 
 ```
 Authorization: Bearer <token>
@@ -73,10 +75,18 @@ Roles: `admin`, `manager`, `staff`. Some write routes are role-restricted
 ### Auth
 | Method | Endpoint | Access | Description |
 |---|---|---|---|
-| POST | `/api/auth/register` | Public | Create a user, returns JWT |
+| POST | `/api/auth/register` | admin | Legacy admin-only user creation route |
 | POST | `/api/auth/login` | Public | Returns JWT |
 | POST | `/api/auth/logout` | Authenticated | Stateless no-op (client discards token) |
 | GET | `/api/auth/me` | Authenticated | Current user profile |
+| PATCH | `/api/auth/me` | Authenticated | Update own name, email, Nigerian phone number, and optional password |
+
+### Users (admin only)
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/users` | List system users |
+| POST | `/api/users` | Create a user and assign `admin`, `manager`, or `staff` role |
+| PATCH | `/api/users/:id` | Edit contact details, role, password, or active status |
 
 ### Products
 | Method | Endpoint | Access | Description |
@@ -112,9 +122,9 @@ Roles: `admin`, `manager`, `staff`. Some write routes are role-restricted
 `type` is one of `STOCK_IN`, `STOCK_OUT`, `SALE`, `RETURN`, `DAMAGED`, `ADJUSTMENT`, `RESTOCK`.
 Use a negative `quantityChange` for anything that removes stock.
 
-Recording a movement automatically updates `current_stock` and fires an
-in-app notification if the product crosses into `LOW_STOCK` / `CRITICAL` /
-`OUT_OF_STOCK`.
+Recording a movement automatically updates `current_stock`, records an
+in-app notification, and delivers email/SMS to active users when those
+delivery channels are enabled.
 
 ### Suppliers
 | Method | Endpoint | Access |

@@ -43,6 +43,25 @@ Beyond the three services running side by side, these connections are built and 
 All of the above was exercised with real requests against the live stack
 (not just written and assumed correct) — see "Verified working" below.
 
+## Alert delivery and user administration
+
+StockWatch now delivers low-stock, critical-stock, and out-of-stock alerts
+in three ways: the existing in-app alert feed, SMTP email, and NigeriaBulkSMS
+SMS. Delivery is sent to each active system user who has the matching contact
+detail configured. Provider failures are logged without interrupting stock
+movements or the in-app alert.
+
+- Users update their own name, email, password, and Nigerian phone number in
+  **My Profile**.
+- Administrators use **Manage users** to add staff, managers, and other
+  administrators; update their contacts/roles; reset passwords; or disable
+  accounts. User creation is admin-only.
+- Enable delivery in `server/.env` only after adding valid SMTP and
+  NigeriaBulkSMS credentials. See `server/.env.example` and `server/README.md`.
+- Nigerian mobile numbers may be saved as `080...` or `+234...`; the server
+  converts valid local numbers to the international format expected by the
+  SMS provider.
+
 ## Quick start (all three services)
 
 ```bash

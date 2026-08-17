@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, StockMovement } = require('../models');
 const { toSafeUser } = require('./authController');
 
 async function listUsers(req, res, next) {
@@ -38,4 +38,20 @@ async function updateUser(req, res, next) {
   } catch (err) { next(err); }
 }
 
-module.exports = { listUsers, createUser, updateUser };
+async function deleteUser(req, res, next) {
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (user.id === req.user.id) return res.status(400).json({ error: 'You cannot delete your own account' });
+    if (user.role === 'admin' && user.is_active) {
+      const activeAdmins = await User.count({ where: { role: 'admin', is_active: true } });
+      if (activeAdmins <= 1) return res.status(400).json({ error: 'You cannot delete the last active administrator' });
+    }
+    // Keep the stock audit trail, removing only its reference to this account.
+    await StockMovement.update({ performed_by: null }, { where: { performed_by: user.id } });
+    await user.destroy();
+    res.status(204).send();
+  } catch (err) { next(err); }
+}
+
+module.exports = { listUsers, createUser, updateUser, deleteUser };

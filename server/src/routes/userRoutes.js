@@ -7,5 +7,6 @@ router.use(authenticate, authorize('admin'));
 router.get('/', controller.listUsers);
 router.post('/', controller.createUser);
 router.patch('/:id', controller.updateUser);
+router.delete('/:id', controller.deleteUser);
 
 module.exports = router;

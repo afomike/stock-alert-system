@@ -115,6 +115,23 @@ Email:    admin@stockalert.com
 Password: admin123
 ```
 
+## Alert delivery and users
+
+In `server\.env`, enable `EMAIL_ENABLED=true` after configuring your SMTP
+credentials. To enable NigeriaBulkSMS, add these values and restart the API:
+
+```env
+SMS_ENABLED=true
+NIGERIA_BULK_SMS_URL=https://portal.nigeriabulksms.com/api/
+NIGERIA_BULK_SMS_USERNAME=your-portal-username
+NIGERIA_BULK_SMS_PASSWORD=your-portal-password
+NIGERIA_BULK_SMS_SENDER=StockWatch
+```
+
+Admins add users from **Manage users**. Every user can set their Nigerian
+SMS phone number (`080...` or `+234...`) from **My Profile**. Keep `.env`
+private: it contains credentials.
+
 ## Windows-specific troubleshooting
 
 **`'npm' is not recognized as an internal or external command`**

@@ -10,7 +10,7 @@ const NAV_ITEMS = [
 
 export default function Sidebar() {
   return (
-    <aside className="w-64 shrink-0 bg-gradient-to-b from-ink via-ink-soft to-ink text-paper flex flex-col h-screen sticky top-0 left-0 z-50 border-r border-white/5 md:relative md:z-0">
+    <aside className="w-64 shrink-0 bg-gradient-to-b from-ink via-ink-soft to-ink text-paper flex flex-col h-screen fixed inset-y-0 left-0 z-50 border-r border-white/5">
       <div className="px-6 py-8 border-b border-white/10 space-y-1">
         <div className="flex items-center gap-2 mb-2"><div className="w-10 h-10 bg-amber/20 rounded-lg flex items-center justify-center"><span className="font-mono text-xs text-amber">SW</span></div><p className="font-display text-lg font-bold tracking-tight">STOCKWATCH</p></div>
         <p className="font-mono text-xs text-paper/50 uppercase tracking-widest">Inventory System</p>

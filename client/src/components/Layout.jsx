@@ -6,9 +6,9 @@ export default function Layout({ title, children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-paper overflow-hidden">
+    <div className="min-h-screen bg-paper md:pl-64">
       {/* Sidebar */}
-      <div className="hidden md:block md:flex-shrink-0">
+      <div className="hidden md:block">
         <Sidebar />
       </div>
 
@@ -30,7 +30,7 @@ export default function Layout({ title, children }) {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen">
         {/* Topbar with Mobile Menu */}
         <div className="sticky top-0 z-30 bg-paper border-b border-line">
           <div className="flex items-center px-4 py-3 md:hidden">

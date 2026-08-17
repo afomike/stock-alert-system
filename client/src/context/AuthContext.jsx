@@ -45,8 +45,15 @@ export function AuthProvider({ children }) {
     setUser(null);
   }
 
+  async function updateProfile(payload) {
+    const updatedUser = await authService.updateProfile(payload);
+    localStorage.setItem('stockwatch_user', JSON.stringify(updatedUser));
+    setUser(updatedUser);
+    return updatedUser;
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

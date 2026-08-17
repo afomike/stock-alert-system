@@ -15,6 +15,11 @@ export async function fetchMe() {
   return data.user;
 }
 
+export async function updateProfile(payload) {
+  const { data } = await api.patch('/auth/me', payload);
+  return data.user;
+}
+
 export async function logout() {
   try {
     await api.post('/auth/logout');

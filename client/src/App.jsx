@@ -6,6 +6,8 @@ import Inventory from './pages/Inventory';
 import Suppliers from './pages/Suppliers';
 import Reports from './pages/Reports';
 import Alerts from './pages/Alerts';
+import Profile from './pages/Profile';
+import Users from './pages/Users';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -53,6 +55,8 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
     </Routes>
   );
 }

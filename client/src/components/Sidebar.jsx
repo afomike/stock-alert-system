@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { to: '/suppliers', label: 'Suppliers', icon: 'SU' },
   { to: '/reports', label: 'Reports', icon: 'RP' },
   { to: '/alerts', label: 'Alerts', icon: 'AL' },
+  { to: '/profile', label: 'My Profile', icon: 'ME' },
 ];
 
 export default function Sidebar() {

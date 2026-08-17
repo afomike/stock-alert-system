@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import Button from './Button';
+import { Link } from 'react-router-dom';
 
 export default function Topbar({ title }) {
   const { user, logout } = useAuth();
@@ -45,6 +46,8 @@ export default function Topbar({ title }) {
                   <p className="text-xs text-ink/60">{user?.email}</p>
                 </div>
                 <div className="px-4 py-2">
+                  {user?.role === 'admin' && <Link to="/users" onClick={() => setShowUserMenu(false)} className="block px-3 py-2 text-sm text-ink hover:bg-paper-dim rounded-lg">Manage users</Link>}
+                  <Link to="/profile" onClick={() => setShowUserMenu(false)} className="block px-3 py-2 text-sm text-ink hover:bg-paper-dim rounded-lg">My profile</Link>
                   <button
                     onClick={() => {
                       logout();

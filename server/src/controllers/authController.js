@@ -49,6 +49,27 @@ async function register(req, res, next) {
   }
 }
 
+async function updateProfile(req, res, next) {
+  try {
+    const { name, email, phone, password } = req.body;
+    if (!name || !email) return res.status(400).json({ error: 'name and email are required' });
+
+    const existing = await User.findOne({ where: { email } });
+    if (existing && existing.id !== req.user.id) {
+      return res.status(409).json({ error: 'Email already registered' });
+    }
+
+    req.user.name = name.trim();
+    req.user.email = email.trim().toLowerCase();
+    req.user.phone = phone?.trim() || null;
+    if (password) req.user.password_hash = password;
+    await req.user.save();
+    res.json({ user: toSafeUser(req.user) });
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function login(req, res, next) {
   try {
     const { email, password } = req.body;
@@ -81,4 +102,4 @@ async function logout(req, res) {
   res.json({ message: 'Logged out successfully' });
 }
 
-module.exports = { register, login, me, logout };
+module.exports = { register, login, me, updateProfile, logout, toSafeUser };

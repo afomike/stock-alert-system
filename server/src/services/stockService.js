@@ -1,5 +1,6 @@
 const { Op, fn, col, literal } = require('sequelize');
 const { Product, StockMovement, Notification, Supplier } = require('../models');
+const { deliverAlert } = require('./deliveryService');
 
 /**
  * Reorder Point = (Average Daily Demand x Supplier Lead Time) + Safety Stock
@@ -198,12 +199,14 @@ async function maybeCreateLowStockNotification(product) {
 
   const message = `${type.replace('_', ' ')}: ${product.name} has ${product.current_stock} units remaining. Recommended reorder quantity: ${product.reorder_quantity} units.`;
 
-  return Notification.create({
+  const notification = await Notification.create({
     product_id: product.id,
     type,
     message,
     channel: 'IN_APP',
   });
+  void deliverAlert({ type, message });
+  return notification;
 }
 
 module.exports = {

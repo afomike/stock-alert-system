@@ -2,9 +2,11 @@ const { User } = require('../models');
 
 function normalizeNigerianPhone(phone) {
   const digits = String(phone || '').replace(/\D/g, '');
-  if (digits.startsWith('234') && digits.length >= 13) return digits;
+  if (!digits) return null;
+  if (digits.startsWith('234') && digits.length === 13) return digits;
+  if (digits.startsWith('2340') && digits.length === 14) return `234${digits.slice(4)}`;
   if (digits.startsWith('0') && digits.length === 11) return `234${digits.slice(1)}`;
-  if (digits.length === 10 && digits.startsWith('8')) return `234${digits}`;
+  if (digits.length === 10 && /^[789]/.test(digits)) return `234${digits}`;
   return null;
 }
 
@@ -26,7 +28,11 @@ async function sendSms(recipients, message) {
   const params = new URLSearchParams({ username: process.env.NIGERIA_BULK_SMS_USERNAME || '', password: process.env.NIGERIA_BULK_SMS_PASSWORD || '', sender: process.env.NIGERIA_BULK_SMS_SENDER || 'StockWatch', mobiles: recipients.join(','), message });
   const response = await fetch(`${baseUrl}${baseUrl.includes('?') ? '&' : '?'}${params}`);
   const payload = await response.text();
-  if (!response.ok || /"error"|"status"\s*:\s*"?(?!OK)/i.test(payload)) throw new Error(`NigeriaBulkSMS rejected the SMS: ${payload}`);
+  let data;
+  try { data = JSON.parse(payload); } catch { data = null; }
+  if (!response.ok || (data && (data.error || (data.status && data.status !== 'OK')))) {
+    throw new Error(`NigeriaBulkSMS rejected the SMS: ${payload}`);
+  }
 }
 
 async function deliverAlert({ type, message }) {

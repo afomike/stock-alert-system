@@ -113,7 +113,7 @@ export default function Inventory() {
     setSavingMovement(true);
     try {
       const qty = Number(movementQty);
-      const signedQty = movementType === 'SALE' || movementType === 'DAMAGED' ? -Math.abs(qty) : Math.abs(qty);
+      const signedQty = movementType === 'SALE' || movementType === 'DAMAGED' || movementType === 'STOCK_OUT' ? -Math.abs(qty) : Math.abs(qty);
       await inventoryService.recordMovement({
         productId: selected.id,
         type: movementType,
